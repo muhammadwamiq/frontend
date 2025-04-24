@@ -25,8 +25,6 @@ jobs:
           script: |
             echo "Connected to EC2!"
             sudo apt update -y
-            curl -fsSL https://deb.nodesource.com/setup_lts.x | sudo -E bash -
-            sudo apt-get install -y nodejs
             sudo rm -rf frontend
             echo "Removed frontend folder"
             git clone https://github.com/muhammadwamiq/frontend.git
@@ -39,9 +37,8 @@ jobs:
             echo "dependencies installed" 
             sudo npm run build
             echo "running build"
-            cd /var/www/html/
-            sudo mkdir frontend
-            cp -r build/* /var/www/html/frontend
+            cd /var/www/html/frontend
+            cp -r /home/ubuntu/frontend/build/* .
             sudo nginx -t 
             echo "testing nginx"
             sudo systemctl reload nginx 
