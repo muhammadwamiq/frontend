@@ -38,7 +38,7 @@ jobs:
             sudo npm run build
             echo "running build"
             cd /var/www/html/frontend
-            cp -r /home/ubuntu/frontend/build/* .
+            sudo cp -r /home/ubuntu/frontend/build/* .
             sudo nginx -t 
             echo "testing nginx"
             sudo systemctl reload nginx 
