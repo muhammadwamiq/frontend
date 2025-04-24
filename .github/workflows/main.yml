@@ -24,6 +24,9 @@ jobs:
           port: ${{ secrets.EC2_PORT }}
           script: |
             echo "Connected to EC2!"
+            sudo apt update -y
+            curl -fsSL https://deb.nodesource.com/setup_lts.x | sudo -E bash -
+            sudo apt-get install -y nodejs
             sudo rm -rf frontend
             echo "Removed frontend folder"
             git clone https://github.com/muhammadwamiq/frontend.git
@@ -36,10 +39,9 @@ jobs:
             echo "dependencies installed" 
             sudo npm run build
             echo "running build"
-            sudo rm -rf /home/ec2-user/react-app-deploy/*
-            echo "removing content of my react app deploy"
-            sudo cp -r build/* /home/ec2-user/react-app-deploy/
-            echo "copying content of build to my react app deploy"
+            cd /var/www/html/
+            sudo mkdir frontend
+            cp -r build/* /var/www/html/frontend
             sudo nginx -t 
             echo "testing nginx"
             sudo systemctl reload nginx 
