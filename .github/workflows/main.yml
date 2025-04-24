@@ -2,6 +2,10 @@ on:
   push:
     branches:
       - main
+  pull_request:
+    branches:
+      - main
+
 
 jobs:
   deploy:
@@ -20,4 +24,23 @@ jobs:
           port: ${{ secrets.EC2_PORT }}
           script: |
             echo "Connected to EC2!"
-            uptime
+            sudo rm -rf frontend
+            echo "Removed frontend folder"
+            git clone https://github.com/muhammadwamiq/frontend.git
+            echo "Cloning to GITHUB done"
+            ls
+            echo "listing files of current directiory"
+            cd frontend
+            echo "Moved inside project folder"
+            sudo npm install 
+            echo "dependencies installed" 
+            sudo npm run build
+            echo "running build"
+            sudo rm -rf /home/ec2-user/react-app-deploy/*
+            echo "removing content of my react app deploy"
+            sudo cp -r build/* /home/ec2-user/react-app-deploy/
+            echo "copying content of build to my react app deploy"
+            sudo nginx -t 
+            echo "testing nginx"
+            sudo systemctl reload nginx 
+            echo "nginx reloaded"
